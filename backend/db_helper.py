@@ -1,13 +1,14 @@
 import mysql.connector
+import os
 global cnx
 
 # Connect the MySQL database with the FastAPI backend.
 cnx = mysql.connector.connect(
-    host="switchback.proxy.rlwy.net",
-    port=30829,
-    user="root",
-    password="root",
-    database="railway"
+    host=os.getenv("MYSQLHOST"),
+    port=int(os.getenv("MYSQLPORT")),
+    user=os.getenv("MYSQLUSER"),
+    password=os.getenv("MYSQLPASSWORD"),
+    database=os.getenv("MYSQLDATABASE")
 )
 
 def get_next_order_id():
@@ -115,3 +116,4 @@ def insert_order_tracking(order_id, status):
     # Close the cursor
 
     cursor.close()
+
