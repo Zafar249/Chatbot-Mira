@@ -3,10 +3,11 @@ global cnx
 
 # Connect the MySQL database with the FastAPI backend.
 cnx = mysql.connector.connect(
-    host="localhost",
+    host="switchback.proxy.rlwy.net",
+    port=30829,
     user="root",
     password="root",
-    database="pandeyji_eatery"
+    database="railway"
 )
 
 def get_next_order_id():
@@ -112,4 +113,5 @@ def insert_order_tracking(order_id, status):
     cnx.commit()
 
     # Close the cursor
+
     cursor.close()
