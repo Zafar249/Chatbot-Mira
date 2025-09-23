@@ -2,16 +2,20 @@ import mysql.connector
 import os
 global cnx
 
-# Connect the MySQL database with the FastAPI backend.
-cnx = mysql.connector.connect(
-    host=os.getenv("MYSQLHOST"),
-    port=int(os.getenv("MYSQLPORT")),
-    user=os.getenv("MYSQLUSER"),
-    password=os.getenv("MYSQLPASSWORD"),
-    database=os.getenv("MYSQLDATABASE")
-)
+def get_connection():
+    # Connect the MySQL database with the FastAPI backend.
+    return mysql.connector.connect(
+        host=os.getenv("MYSQLHOST"),
+        port=int(os.getenv("MYSQLPORT")),
+        user=os.getenv("MYSQLUSER"),
+        password=os.getenv("MYSQLPASSWORD"),
+        database=os.getenv("MYSQLDATABASE")
+    )
 
 def get_next_order_id():
+
+    cnx = get_connection()
+    
     # Create a cursor object
     cursor = cnx.cursor()
 
@@ -36,6 +40,9 @@ def get_next_order_id():
         return result + 1
 
 def get_order_status(order_id : int):
+
+    cnx = get_connection()
+    
     # Create a cursor object
     cursor = cnx.cursor()
 
@@ -59,6 +66,9 @@ def get_order_status(order_id : int):
     
 def insert_order_item(food_item, quantity, order_id):
     try:
+
+        cnx = get_connection()
+    
         # Create a cursor object
         cursor = cnx.cursor()
 
@@ -83,6 +93,9 @@ def insert_order_item(food_item, quantity, order_id):
         return -1
     
 def get_total_order_price(order_id):
+
+    cnx = get_connection()
+    
     # Create a cursor object
     cursor = cnx.cursor()
 
@@ -101,6 +114,9 @@ def get_total_order_price(order_id):
     return result
 
 def insert_order_tracking(order_id, status):
+
+    cnx = get_connection()
+    
     # Create a cursor object
     cursor = cnx.cursor()
 
@@ -116,4 +132,5 @@ def insert_order_tracking(order_id, status):
     # Close the cursor
 
     cursor.close()
+
 
